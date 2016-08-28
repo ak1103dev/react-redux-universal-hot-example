@@ -1,6 +1,6 @@
-const INCREMENT = 'redux-example/counter/INCREMENT';
+export const INCREMENT = 'redux-example/counter/INCREMENT';
 
-const initialState = {
+export const initialState = {
   count: 0
 };
 
@@ -20,4 +20,8 @@ export function increment() {
   return {
     type: INCREMENT
   };
+}
+
+export function textToDisplay() {
+  return 0;
 }
