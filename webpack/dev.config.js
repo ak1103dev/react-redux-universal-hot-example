@@ -12,6 +12,8 @@ var port = (+process.env.PORT + 1) || 3001;
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
 
+var HappyPack = require('happypack');
+
 var babelrc = fs.readFileSync('./.babelrc');
 var babelrcObject = {};
 
@@ -80,8 +82,8 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']},
-      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['happypack/loader?id=jsx']},
+      { test: /\.json$/, loader: 'happypack/loader?id=json' },
       { test: /\.less$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!less?outputStyle=expanded&sourceMap' },
       { test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap' },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
@@ -101,6 +103,16 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
+    new HappyPack({
+      id: 'jsx',
+      loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader'],
+      threads: 4
+    }),
+    new HappyPack({
+      id: 'json',
+      loaders: ['json-loader'],
+      threads: 4
+    }),
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
