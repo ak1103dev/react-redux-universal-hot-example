@@ -53,6 +53,9 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
+    new webpack.PrefetchPlugin('./src/containers/App/App'),
+    new webpack.PrefetchPlugin('./~/redux-form/lib/index.js'),
+
     new CleanPlugin([assetsPath], { root: projectRootPath }),
 
     // css files from the extract-text-plugin loader

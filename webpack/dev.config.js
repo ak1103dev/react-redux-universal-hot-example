@@ -101,6 +101,8 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
+    new webpack.PrefetchPlugin('./src/containers/App/App.js'),
+    new webpack.PrefetchPlugin('./src/redux/modules/reducer.js'),
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
